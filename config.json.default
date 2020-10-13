@@ -1,7 +1,6 @@
 {
   "name":"cert.agent",
   "title":"cert.agent",
-  "use_forks_for_http":false,
   "developerMode":false,
   "monitoringInterval_InMin":15,
   "ca":{
