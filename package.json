@@ -1,0 +1,19 @@
+{
+  "name": "cert.agent",
+  "version": "1.0.0",
+  "description": "Agent for send request to new cert and rewrite cert file.",
+  "private": true,
+  "main": "main.js",
+  "dependencies": {
+    "mustache": "^4.0.1",
+    "qs": "^6.9.4",
+    "request": "^2.88.2",
+    "x509": "^0.3.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "SEMILICON LLC",
+  "license": "ISC"
+}

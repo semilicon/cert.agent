@@ -1,0 +1,25 @@
+{
+  "name":"cert.agent",
+  "title":"cert.agent",
+  "use_forks_for_http":false,
+  "developerMode":false,
+  "monitoringInterval_InMin":15,
+  "ca":{
+    "host":"https://ca.server.smth.com/",
+    "publicKey":"vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A",
+    "secretKey":"NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j"
+  },
+  "certs":[
+    {
+      "certFile":"/usr/some_app/server.crt",
+      "keyFile":"/usr/some_app/server.key",
+      "caFile":"/usr/some_app/ca.crt",
+      "options":{
+        "domain":"some_app.smth.com",
+        "organization":"My Org LLC",
+        "locality":"London",
+        "countryCode":"GB"
+      }
+    }
+  ]
+}

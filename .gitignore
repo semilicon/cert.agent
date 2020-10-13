@@ -1,0 +1,6 @@
+node_modules
+log/_syslog.log
+package-lock.json
+config.json
+data/.tmp
+data/root_ca.crt

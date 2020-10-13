@@ -1,0 +1,32 @@
+[Unit]
+Description={{{name}}}
+After=network-online.target
+
+[Service]
+Environment=PATH=/usr/bin
+WorkingDirectory={{{root_path}}}
+ExecStart=/usr/bin/node {{{root_path}}}main.js
+Restart=always
+RestartSec=15s
+
+User=root
+Group=root
+
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier={{{name}}}
+
+#Environment=NODE_ENV=production PORT=80
+#ExecReload=/bin/kill -HUP $MAINPID
+#KillMode=process
+#RestartSec=15s
+#User=root
+#Group=root
+
+#CPUAccounting=true
+#CPUQuota=50%
+#MemoryAccounting=true
+#MemoryLimit=100M
+
+[Install]
+WantedBy=multi-user.target
