@@ -29,9 +29,10 @@ var main = {
 		//console.log('Monitoring process;');
 		for(let i in config.certs){
 			let item=config.certs[i];
-			if(!fs.existsSync(item.certFile))await main.createCrt(item);
+			if(typeof item.certFile!='undefined'&&!fs.existsSync(item.certFile))await main.createCrt(item);
+			else if(typeof item.bundleFile!='undefined'&&!fs.existsSync(item.bundleFile))await main.createCrt(item);
 			else{
-				var certData = x509.parseCert(item.certFile);
+				var certData = x509.parseCert((item.certFile)?item.certFile:(item.bundleFile)?item.bundleFile:'');
 				var daysToExpirate=Math.floor((+certData.notAfter-Date.now())/1000/60/60/24);
 				if(daysToExpirate<3)await main.createCrt(item);
 			}
@@ -41,7 +42,7 @@ var main = {
 		for(let i in config.certs){
 			let item=config.certs[i];
 			if(typeof item.caFile!='undefined'&&!fs.existsSync(item.caFile))main.copyCaFile(item.caFile);
-			if(!fs.existsSync(item.keyFile)||!fs.existsSync(item.certFile)){
+			if(!fs.existsSync(item.keyFile)||(typeof item.certFile!='undefined'&&!fs.existsSync(item.certFile))||(typeof item.bundleFile!='undefined'&&!fs.existsSync(item.bundleFile))){
 				if(!fs.existsSync(item.keyFile))openssl.createKey(item.keyFile);
 				let res = await main.createCrt(item);
 				if(res===false)return false;
@@ -60,7 +61,13 @@ var main = {
 		try{
 			var responce = await API.get('cert/signcsr','',{csr:csr});
 		}catch(err){setTimeout(()=>{restart();},30000);return false;}
-		if(responce.result.cert)fs.writeFileSync(item.certFile, responce.result.cert,{ flag: 'w+' });
+		if(responce.result.cert){
+			if(typeof item.certFile!='undefined')fs.writeFileSync(item.certFile, responce.result.cert,{ flag: 'w+' });
+			if(typeof item.bundleFile!='undefined'){
+				let ca=fs.readFileSync(__root+'data/root_ca.crt','utf8');
+				fs.writeFileSync(item.bundleFile, responce.result.cert+ca,{ flag: 'w+' });
+			}
+		}
 		//console.log('Certificate created;');
 		return true;
 	}

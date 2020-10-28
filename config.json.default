@@ -11,6 +11,7 @@
   "certs":[
     {
       "certFile":"/usr/some_app/server.crt",
+      "bundleFile":"/usr/some_app/server.crtbundle",
       "keyFile":"/usr/some_app/server.key",
       "caFile":"/usr/some_app/ca.crt",
       "options":{
