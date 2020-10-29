@@ -58,10 +58,12 @@ var main = {
 		openssl.createCsr(item.keyFile,__root+'data/.tmp/'+name+'.csr',item.options);
 		let csr=fs.readFileSync(__root+'data/.tmp/'+name+'.csr','utf8');
 		fs.unlinkSync(__root+'data/.tmp/'+name+'.csr');
+		let options={csr:csr};
+		if(typeof item.altnames!='undefined')options.altnames=item.altnames;
 		try{
-			var responce = await API.get('cert/signcsr','',{csr:csr});
+			var responce = await API.get('cert/signcsr','',options);
 		}catch(err){setTimeout(()=>{restart();},30000);return false;}
-		if(responce.result.cert){
+		if(responce.result&&responce.result.cert){
 			if(typeof item.certFile!='undefined')fs.writeFileSync(item.certFile, responce.result.cert,{ flag: 'w+' });
 			if(typeof item.bundleFile!='undefined'){
 				let ca=fs.readFileSync(__root+'data/root_ca.crt','utf8');
